@@ -9,7 +9,7 @@
 //        Created by: pettycc
 //              Version: NX 2306
 //              Date: 07-15-2026  (Format: mm-dd-yyyy)
-//              Time: 13:24
+//              Time: 14:55
 //
 //==============================================================================
 
@@ -22,6 +22,8 @@
 #include <uf_defs.h>
 #include <uf_ui_types.h>
 #include <iostream>
+#include <vector>
+#include <math.h>
 #include <NXOpen/Session.hxx>
 #include <NXOpen/UI.hxx>
 #include <NXOpen/NXMessageBox.hxx>
@@ -35,6 +37,16 @@
 #include <NXOpen/BlockStyler_SelectObject.hxx>
 #include <NXOpen/BlockStyler_SpecifyPoint.hxx>
 #include <NXOpen/BlockStyler_Enumeration.hxx>
+#include <NXOpen/NXObject.hxx>
+#include <NXOpen/Part.hxx>
+#include <NXOpen/PartCollection.hxx>
+#include <NXOpen/BasePart.hxx>
+#include <NXOpen/Update.hxx>
+#include <NXOpen/SelectNXObjectList.hxx>
+#include <NXOpen/Features_BaseFeatureCollection.hxx>
+#include <NXOpen/Features_MoveObjectBuilder.hxx>
+#include <NXOpen/GeometricUtilities_ModlMotion.hxx>
+#include <NXOpen/ugmath.hxx>
 
 //------------------------------------------------------------------------------
 //Bit Option for Property: SnapPointTypesEnabled
@@ -98,14 +110,8 @@ public:
     static UI *theUI;
     dotmove_copy();
     ~dotmove_copy();
-    NXOpen::BlockStyler::BlockDialog::DialogResponse Launch();
+    void Launch();
     
-    //----------------------- BlockStyler Callback Prototypes ---------------------
-    // The following member function prototypes define the callbacks 
-    // specified in your BlockStyler dialog.  The empty implementation
-    // of these prototypes is provided in the dotmove_copy.cpp file. 
-    // You are REQUIRED to write the implementation for these functions.
-    //------------------------------------------------------------------------------
     void initialize_cb();
     void dialogShown_cb();
     int apply_cb();
@@ -117,16 +123,24 @@ private:
     const char* theDlxFileName;
     NXOpen::BlockStyler::BlockDialog* theDialog;
     NXOpen::BlockStyler::Group* group0;
-    NXOpen::BlockStyler::Button* move_button;// Block type: Button
-    NXOpen::BlockStyler::Button* copy_button;// Block type: Button
-    NXOpen::BlockStyler::Group* group1;// Block type: Group
-    NXOpen::BlockStyler::SelectObject* selection0;// Block type: Selection
-    NXOpen::BlockStyler::Group* group2;// Block type: Group
-    NXOpen::BlockStyler::SpecifyPoint* point0;// Block type: Specify Point
-    NXOpen::BlockStyler::Enumeration* start_enum;// Block type: Enumeration
-    NXOpen::BlockStyler::Group* group;// Block type: Group
-    NXOpen::BlockStyler::SpecifyPoint* point01;// Block type: Specify Point
-    NXOpen::BlockStyler::Enumeration* end_enum;// Block type: Enumeration
+    NXOpen::BlockStyler::Button* move_button;
+    NXOpen::BlockStyler::Button* copy_button;
+    NXOpen::BlockStyler::Group* group1;
+    NXOpen::BlockStyler::SelectObject* selection0;
+    NXOpen::BlockStyler::Group* group2;
+    NXOpen::BlockStyler::SpecifyPoint* startpoint;
+    NXOpen::BlockStyler::Enumeration* start_enum;
+    NXOpen::BlockStyler::Group* group;
+    NXOpen::BlockStyler::SpecifyPoint* endpoint;
+    NXOpen::BlockStyler::Enumeration* end_enum;
     
+    int m_actionMode; // 0=none, 1=move, 2=copy
+    int move_objects();
+    int copy_objects();
 };
+
+// Helper function declarations
+static Point3d GetPointFromSpecifyPoint(NXOpen::BlockStyler::SpecifyPoint* sp);
+static std::vector<TaggedObject*> GetSelectedObjects(NXOpen::BlockStyler::SelectObject* sel);
+
 #endif //DOTMOVE_COPY_H_INCLUDED

@@ -9,7 +9,7 @@
 //        Created by: pettycc
 //              Version: NX 2306
 //              Date: 07-15-2026  (Format: mm-dd-yyyy)
-//              Time: 13:24 (Format: hh-mm)
+//              Time: 16:12 (Format: hh-mm)
 //
 //==============================================================================
 
@@ -198,10 +198,10 @@ void dotmove_copy::initialize_cb()
         group1 = dynamic_cast<NXOpen::BlockStyler::Group*>(theDialog->TopBlock()->FindBlock("group1"));
         selection0 = dynamic_cast<NXOpen::BlockStyler::SelectObject*>(theDialog->TopBlock()->FindBlock("selection0"));
         group2 = dynamic_cast<NXOpen::BlockStyler::Group*>(theDialog->TopBlock()->FindBlock("group2"));
-        point0 = dynamic_cast<NXOpen::BlockStyler::SpecifyPoint*>(theDialog->TopBlock()->FindBlock("point0"));
+        startpoint = dynamic_cast<NXOpen::BlockStyler::SpecifyPoint*>(theDialog->TopBlock()->FindBlock("startpoint"));
         start_enum = dynamic_cast<NXOpen::BlockStyler::Enumeration*>(theDialog->TopBlock()->FindBlock("start_enum"));
         group = dynamic_cast<NXOpen::BlockStyler::Group*>(theDialog->TopBlock()->FindBlock("group"));
-        point01 = dynamic_cast<NXOpen::BlockStyler::SpecifyPoint*>(theDialog->TopBlock()->FindBlock("point01"));
+        endpoint = dynamic_cast<NXOpen::BlockStyler::SpecifyPoint*>(theDialog->TopBlock()->FindBlock("endpoint"));
         end_enum = dynamic_cast<NXOpen::BlockStyler::Enumeration*>(theDialog->TopBlock()->FindBlock("end_enum"));
     }
     catch(exception& ex)
@@ -267,7 +267,7 @@ int dotmove_copy::update_cb(NXOpen::BlockStyler::UIBlock* block)
         {
         //---------Enter your code here-----------
         }
-        else if(block == point0)
+        else if(block == startpoint)
         {
         //---------Enter your code here-----------
         }
@@ -275,7 +275,7 @@ int dotmove_copy::update_cb(NXOpen::BlockStyler::UIBlock* block)
         {
         //---------Enter your code here-----------
         }
-        else if(block == point01)
+        else if(block == endpoint)
         {
         //---------Enter your code here-----------
         }

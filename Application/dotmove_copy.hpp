@@ -9,7 +9,7 @@
 //        Created by: pettycc
 //              Version: NX 2306
 //              Date: 07-15-2026  (Format: mm-dd-yyyy)
-//              Time: 13:24
+//              Time: 16:12
 //
 //==============================================================================
 
@@ -122,10 +122,10 @@ private:
     NXOpen::BlockStyler::Group* group1;// Block type: Group
     NXOpen::BlockStyler::SelectObject* selection0;// Block type: Selection
     NXOpen::BlockStyler::Group* group2;// Block type: Group
-    NXOpen::BlockStyler::SpecifyPoint* point0;// Block type: Specify Point
+    NXOpen::BlockStyler::SpecifyPoint* startpoint;// Block type: Specify Point
     NXOpen::BlockStyler::Enumeration* start_enum;// Block type: Enumeration
     NXOpen::BlockStyler::Group* group;// Block type: Group
-    NXOpen::BlockStyler::SpecifyPoint* point01;// Block type: Specify Point
+    NXOpen::BlockStyler::SpecifyPoint* endpoint;// Block type: Specify Point
     NXOpen::BlockStyler::Enumeration* end_enum;// Block type: Enumeration
     
 };

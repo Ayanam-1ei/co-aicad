@@ -9,53 +9,28 @@
 //        Created by: pettycc
 //              Version: NX 2306
 //              Date: 07-15-2026  (Format: mm-dd-yyyy)
-//              Time: 13:24 (Format: hh-mm)
+//              Time: 14:55 (Format: hh-mm)
 //
 //==============================================================================
 
-//==============================================================================
-//  Purpose:  This TEMPLATE file contains C++ source to guide you in the
-//  construction of your Block application dialog. The generation of your
-//  dialog file (.dlx extension) is the first step towards dialog construction
-//  within NX.  You must now create a NX Open application that
-//  utilizes this file (.dlx).
-//
-//  The information in this file provides you with the following:
-//
-//  1.  Help on how to load and display your Block UI Styler dialog in NX
-//      using APIs provided in NXOpen.BlockStyler namespace
-//  2.  The empty callback methods (stubs) associated with your dialog items
-//      have also been placed in this file. These empty methods have been
-//      created simply to start you along with your coding requirements.
-//      The method name, argument list and possible return values have already
-//      been provided for you.
-//==============================================================================
-
-//------------------------------------------------------------------------------
-//These includes are needed for the following template code
-//------------------------------------------------------------------------------
 #include "dotmove_copy.hpp"
+#include <NXOpen/BasePart.hxx>
+#include <NXOpen/Update.hxx>
+
 using namespace NXOpen;
 using namespace NXOpen::BlockStyler;
 
-//------------------------------------------------------------------------------
-// Initialize static variables
-//------------------------------------------------------------------------------
 Session *(dotmove_copy::theSession) = NULL;
 UI *(dotmove_copy::theUI) = NULL;
-//------------------------------------------------------------------------------
-// Constructor for NX Styler class
-//------------------------------------------------------------------------------
+
 dotmove_copy::dotmove_copy()
 {
     try
     {
-        // Initialize the NX Open C++ API environment
         dotmove_copy::theSession = NXOpen::Session::GetSession();
         dotmove_copy::theUI = UI::GetUI();
         theDlxFileName = "dotmove_copy.dlx";
         theDialog = dotmove_copy::theUI->CreateDialog(theDlxFileName);
-        // Registration of callback functions
         theDialog->AddApplyHandler(make_callback(this, &dotmove_copy::apply_cb));
         theDialog->AddOkHandler(make_callback(this, &dotmove_copy::ok_cb));
         theDialog->AddUpdateHandler(make_callback(this, &dotmove_copy::update_cb));
@@ -64,14 +39,10 @@ dotmove_copy::dotmove_copy()
     }
     catch(exception& ex)
     {
-        //---- Enter your exception handling code here -----
         throw;
     }
 }
 
-//------------------------------------------------------------------------------
-// Destructor for NX Styler class
-//------------------------------------------------------------------------------
 dotmove_copy::~dotmove_copy()
 {
     if (theDialog != NULL)
@@ -80,39 +51,17 @@ dotmove_copy::~dotmove_copy()
         theDialog = NULL;
     }
 }
-//------------------------------- DIALOG LAUNCHING ---------------------------------
-//
-//    Before invoking this application one needs to open any part/empty part in NX
-//    because of the behavior of the blocks.
-//
-//    Make sure the dlx file is in one of the following locations:
-//        1.) From where NX session is launched
-//        2.) $UGII_USER_DIR/application
-//        3.) For released applications, using UGII_CUSTOM_DIRECTORY_FILE is highly
-//            recommended. This variable is set to a full directory path to a file 
-//            containing a list of root directories for all custom applications.
-//            e.g., UGII_CUSTOM_DIRECTORY_FILE=$UGII_BASE_DIR\ugii\menus\custom_dirs.dat
-//
-//    You can create the dialog using one of the following way:
-//
-//    1. USER EXIT
-//
-//        1) Create the Shared Library -- Refer "Block UI Styler programmer's guide"
-//        2) Invoke the Shared Library through File->Execute->NX Open menu.
-//
-//------------------------------------------------------------------------------
+
 extern "C" DllExport void  ufusr(char *param, int *retcod, int param_len)
 {
     dotmove_copy *thedotmove_copy = NULL;
     try
     {
         thedotmove_copy = new dotmove_copy();
-        // The following method shows the dialog immediately
         thedotmove_copy->Launch();
     }
     catch(exception& ex)
     {
-        //---- Enter your exception handling code here -----
         dotmove_copy::theUI->NXMessageBox()->Show("Block Styler", NXOpen::NXMessageBox::DialogTypeError, ex.what());
     }
     if(thedotmove_copy != NULL)
@@ -120,113 +69,213 @@ extern "C" DllExport void  ufusr(char *param, int *retcod, int param_len)
         delete thedotmove_copy;
         thedotmove_copy = NULL;
     }
+    return;
 }
 
-//------------------------------------------------------------------------------
-// This method specifies how a shared image is unloaded from memory
-// within NX. This method gives you the capability to unload an
-// internal NX Open application or user  exit from NX. Specify any
-// one of the three constants as a return value to determine the type
-// of unload to perform:
-//
-//
-//    Immediately : unload the library as soon as the automation program has completed
-//    Explicitly  : unload the library from the "Unload Shared Image" dialog
-//    AtTermination : unload the library when the NX session terminates
-//
-//
-// NOTE:  A program which associates NX Open applications with the menubar
-// MUST NOT use this option since it will UNLOAD your NX Open application image
-// from the menubar.
-//------------------------------------------------------------------------------
-extern "C" DllExport int ufusr_ask_unload()
-{
-    //return (int)Session::LibraryUnloadOptionExplicitly;
-    return (int)Session::LibraryUnloadOptionImmediately;
-    //return (int)Session::LibraryUnloadOptionAtTermination;
-}
-
-//------------------------------------------------------------------------------
-// Following method cleanup any housekeeping chores that may be needed.
-// This method is automatically called by NX.
-//------------------------------------------------------------------------------
-extern "C" DllExport void ufusr_cleanup(void)
+void dotmove_copy::Launch()
 {
     try
     {
-        //---- Enter your callback code here -----
+        theDialog->Show();
     }
     catch(exception& ex)
     {
-        //---- Enter your exception handling code here -----
         dotmove_copy::theUI->NXMessageBox()->Show("Block Styler", NXOpen::NXMessageBox::DialogTypeError, ex.what());
     }
 }
 
-//------------------------------------------------------------------------------
-//This method launches the dialog to screen
-//------------------------------------------------------------------------------
-NXOpen::BlockStyler::BlockDialog::DialogResponse dotmove_copy::Launch()
-{
-    NXOpen::BlockStyler::BlockDialog::DialogResponse dialogResponse= NXOpen::BlockStyler::BlockDialog::DialogResponse::DialogResponseInvalid;
-    try
-    {
-        dialogResponse=theDialog->Launch();
-    }
-    catch(exception& ex)
-    {
-        //---- Enter your exception handling code here -----
-        dotmove_copy::theUI->NXMessageBox()->Show("Block Styler", NXOpen::NXMessageBox::DialogTypeError, ex.what());
-    }
-    return dialogResponse;
-}
-
-//------------------------------------------------------------------------------
-//---------------------Block UI Styler Callback Functions--------------------------
-//------------------------------------------------------------------------------
-
-//------------------------------------------------------------------------------
-//Callback Name: initialize_cb
-//------------------------------------------------------------------------------
 void dotmove_copy::initialize_cb()
 {
     try
     {
+        m_actionMode = 0;
         group0 = dynamic_cast<NXOpen::BlockStyler::Group*>(theDialog->TopBlock()->FindBlock("group0"));
         move_button = dynamic_cast<NXOpen::BlockStyler::Button*>(theDialog->TopBlock()->FindBlock("move_button"));
         copy_button = dynamic_cast<NXOpen::BlockStyler::Button*>(theDialog->TopBlock()->FindBlock("copy_button"));
         group1 = dynamic_cast<NXOpen::BlockStyler::Group*>(theDialog->TopBlock()->FindBlock("group1"));
         selection0 = dynamic_cast<NXOpen::BlockStyler::SelectObject*>(theDialog->TopBlock()->FindBlock("selection0"));
         group2 = dynamic_cast<NXOpen::BlockStyler::Group*>(theDialog->TopBlock()->FindBlock("group2"));
-        point0 = dynamic_cast<NXOpen::BlockStyler::SpecifyPoint*>(theDialog->TopBlock()->FindBlock("point0"));
+        startpoint = dynamic_cast<NXOpen::BlockStyler::SpecifyPoint*>(theDialog->TopBlock()->FindBlock("startpoint"));
         start_enum = dynamic_cast<NXOpen::BlockStyler::Enumeration*>(theDialog->TopBlock()->FindBlock("start_enum"));
         group = dynamic_cast<NXOpen::BlockStyler::Group*>(theDialog->TopBlock()->FindBlock("group"));
-        point01 = dynamic_cast<NXOpen::BlockStyler::SpecifyPoint*>(theDialog->TopBlock()->FindBlock("point01"));
+        endpoint = dynamic_cast<NXOpen::BlockStyler::SpecifyPoint*>(theDialog->TopBlock()->FindBlock("endpoint"));
         end_enum = dynamic_cast<NXOpen::BlockStyler::Enumeration*>(theDialog->TopBlock()->FindBlock("end_enum"));
     }
     catch(exception& ex)
     {
-        //---- Enter your exception handling code here -----
+        dotmove_copy::theUI->NXMessageBox()->Show("Block Styler", NXOpen::NXMessageBox::DialogTypeError, ex.what());
+    }
+}
+
+void dotmove_copy::dialogShown_cb()
+{
+    try
+    {
+    }
+    catch(exception& ex)
+    {
         dotmove_copy::theUI->NXMessageBox()->Show("Block Styler", NXOpen::NXMessageBox::DialogTypeError, ex.what());
     }
 }
 
 //------------------------------------------------------------------------------
-//Callback Name: dialogShown_cb
-//This callback is executed just before the dialog launch. Thus any value set 
-//here will take precedence and dialog will be launched showing that value. 
+// Helper: Get point coordinates from SpecifyPoint
 //------------------------------------------------------------------------------
-void dotmove_copy::dialogShown_cb()
+static Point3d GetPointFromSpecifyPoint(NXOpen::BlockStyler::SpecifyPoint* sp)
 {
+    Point3d pt = {0.0, 0.0, 0.0};
+    if (sp == NULL) return pt;
     try
     {
-        //---- Enter your callback code here -----
+        PropertyList* props = sp->GetProperties();
+        pt = props->GetPoint("Point");
+        delete props;
     }
-    catch(exception& ex)
+    catch(...) { }
+    return pt;
+}
+
+//------------------------------------------------------------------------------
+// Helper: Get selected objects from SelectObject
+//------------------------------------------------------------------------------
+static std::vector<TaggedObject*> GetSelectedObjects(NXOpen::BlockStyler::SelectObject* sel)
+{
+    std::vector<TaggedObject*> objects;
+    if (sel == NULL) return objects;
+    try
     {
-        //---- Enter your exception handling code here -----
-        dotmove_copy::theUI->NXMessageBox()->Show("Block Styler", NXOpen::NXMessageBox::DialogTypeError, ex.what());
+        PropertyList* props = sel->GetProperties();
+        try
+        {
+            std::vector<NXOpen::TaggedObject*> selObjs = props->GetTaggedObjectVector("SelectedObjects");
+            objects.assign(selObjs.begin(), selObjs.end());
+        }
+        catch(...)
+        {
+            TaggedObject* obj = props->GetTaggedObject("SelectedObject");
+            if (obj != NULL) objects.push_back(obj);
+        }
+        delete props;
     }
+    catch(...) { }
+    return objects;
+}
+
+//------------------------------------------------------------------------------
+// Execute MoveObjectBuilder with given objects, matrix, and result option
+//------------------------------------------------------------------------------
+static int ExecuteTransform(
+    NXOpen::Features::MoveObjectBuilder* builder,
+    const Matrix4x4& mat,
+    Features::MoveObjectBuilder::MoveObjectResultOptions resultOpt)
+{
+    builder->SetMoveObjectResult(resultOpt);
+    builder->TransformMotion()->SetOption(GeometricUtilities::ModlMotion::OptionsNone);
+    builder->SetPreMultiplicationTransform(mat);
+    Session* sess = Session::GetSession();
+    Session::UndoMarkId markId = sess->SetUndoMark(Session::MarkVisibilityVisible, "Transform");
+    builder->Commit();
+    builder->Destroy();
+    sess->UpdateManager()->DoUpdate(markId);
+    return 0;
+}
+
+//------------------------------------------------------------------------------
+// Core: Move objects
+//------------------------------------------------------------------------------
+int dotmove_copy::move_objects()
+{
+    Point3d startPt = GetPointFromSpecifyPoint(startpoint);
+    Point3d endPt = GetPointFromSpecifyPoint(endpoint);
+
+    Vector3d vec;
+    vec.X = endPt.X - startPt.X;
+    vec.Y = endPt.Y - startPt.Y;
+    vec.Z = endPt.Z - startPt.Z;
+
+    if (fabs(vec.X) < 0.0001 && fabs(vec.Y) < 0.0001 && fabs(vec.Z) < 0.0001)
+    {
+        dotmove_copy::theUI->NXMessageBox()->Show("dotmove_copy", NXOpen::NXMessageBox::DialogTypeWarning, 
+            "Start point and end point are identical!");
+        return 1;
+    }
+
+    std::vector<TaggedObject*> selObjects = GetSelectedObjects(selection0);
+    if (selObjects.empty())
+    {
+        dotmove_copy::theUI->NXMessageBox()->Show("dotmove_copy", NXOpen::NXMessageBox::DialogTypeError, 
+            "Please select objects to move!");
+        return 1;
+    }
+
+    Part* workPart = theSession->Parts()->Work();
+    Features::MoveObjectBuilder* moveBuilder = workPart->BaseFeatures()->CreateMoveObjectBuilder(NULL);
+
+    for (TaggedObject* obj : selObjects)
+    {
+        NXObject* nxObj = dynamic_cast<NXObject*>(obj);
+        if (nxObj != NULL)
+        {
+            moveBuilder->ObjectToMoveObject()->Add(nxObj);
+        }
+    }
+
+    Matrix4x4 xformMat;
+    xformMat.Rxx = 1.0; xformMat.Rxy = 0.0; xformMat.Rxz = 0.0; xformMat.Xt = vec.X;
+    xformMat.Ryx = 0.0; xformMat.Ryy = 1.0; xformMat.Ryz = 0.0; xformMat.Yt = vec.Y;
+    xformMat.Rzx = 0.0; xformMat.Rzy = 0.0; xformMat.Rzz = 1.0; xformMat.Zt = vec.Z;
+
+    return ExecuteTransform(moveBuilder, xformMat, 
+        Features::MoveObjectBuilder::MoveObjectResultOptionsMoveOriginal);
+}
+
+//------------------------------------------------------------------------------
+// Core: Copy objects
+//------------------------------------------------------------------------------
+int dotmove_copy::copy_objects()
+{
+    Point3d startPt = GetPointFromSpecifyPoint(startpoint);
+    Point3d endPt = GetPointFromSpecifyPoint(endpoint);
+
+    Vector3d vec;
+    vec.X = endPt.X - startPt.X;
+    vec.Y = endPt.Y - startPt.Y;
+    vec.Z = endPt.Z - startPt.Z;
+
+    if (fabs(vec.X) < 0.0001 && fabs(vec.Y) < 0.0001 && fabs(vec.Z) < 0.0001)
+    {
+        dotmove_copy::theUI->NXMessageBox()->Show("dotmove_copy", NXOpen::NXMessageBox::DialogTypeError, 
+            "Start point and end point are identical!");
+        return 1;
+    }
+
+    std::vector<TaggedObject*> selObjects = GetSelectedObjects(selection0);
+    if (selObjects.empty())
+    {
+        dotmove_copy::theUI->NXMessageBox()->Show("dotmove_copy", NXOpen::NXMessageBox::DialogTypeError, 
+            "Please select objects to copy!");
+        return 1;
+    }
+
+    Part* workPart = theSession->Parts()->Work();
+    Features::MoveObjectBuilder* moveBuilder = workPart->BaseFeatures()->CreateMoveObjectBuilder(NULL);
+
+    for (TaggedObject* obj : selObjects)
+    {
+        NXObject* nxObj = dynamic_cast<NXObject*>(obj);
+        if (nxObj != NULL)
+        {
+            moveBuilder->ObjectToMoveObject()->Add(nxObj);
+        }
+    }
+
+    Matrix4x4 xformMat;
+    xformMat.Rxx = 1.0; xformMat.Rxy = 0.0; xformMat.Rxz = 0.0; xformMat.Xt = vec.X;
+    xformMat.Ryx = 0.0; xformMat.Ryy = 1.0; xformMat.Ryz = 0.0; xformMat.Yt = vec.Y;
+    xformMat.Rzx = 0.0; xformMat.Rzy = 0.0; xformMat.Rzz = 1.0; xformMat.Zt = vec.Z;
+
+    return ExecuteTransform(moveBuilder, xformMat, 
+        Features::MoveObjectBuilder::MoveObjectResultOptionsCopyOriginal);
 }
 
 //------------------------------------------------------------------------------
@@ -237,11 +286,20 @@ int dotmove_copy::apply_cb()
     int errorCode = 0;
     try
     {
-        //---- Enter your callback code here -----
+        if (m_actionMode == 1)
+            errorCode = move_objects();
+        else if (m_actionMode == 2)
+            errorCode = copy_objects();
+        else
+        {
+            dotmove_copy::theUI->NXMessageBox()->Show("dotmove_copy", NXOpen::NXMessageBox::DialogTypeError, 
+                "Please click 'Move' or 'Copy' button first!");
+            errorCode = 1;
+        }
+        m_actionMode = 0;
     }
     catch(exception& ex)
     {
-        //---- Enter your exception handling code here -----
         errorCode = 1;
         dotmove_copy::theUI->NXMessageBox()->Show("Block Styler", NXOpen::NXMessageBox::DialogTypeError, ex.what());
     }
@@ -257,36 +315,19 @@ int dotmove_copy::update_cb(NXOpen::BlockStyler::UIBlock* block)
     {
         if(block == move_button)
         {
-        //---------Enter your code here-----------
+            m_actionMode = 1;
+            dotmove_copy::theUI->NXMessageBox()->Show("dotmove_copy", NXOpen::NXMessageBox::DialogTypeInformation, 
+                "Move mode selected. Click Apply to execute.");
         }
         else if(block == copy_button)
         {
-        //---------Enter your code here-----------
-        }
-        else if(block == selection0)
-        {
-        //---------Enter your code here-----------
-        }
-        else if(block == point0)
-        {
-        //---------Enter your code here-----------
-        }
-        else if(block == start_enum)
-        {
-        //---------Enter your code here-----------
-        }
-        else if(block == point01)
-        {
-        //---------Enter your code here-----------
-        }
-        else if(block == end_enum)
-        {
-        //---------Enter your code here-----------
+            m_actionMode = 2;
+            dotmove_copy::theUI->NXMessageBox()->Show("dotmove_copy", NXOpen::NXMessageBox::DialogTypeInformation, 
+                "Copy mode selected. Click Apply to execute.");
         }
     }
     catch(exception& ex)
     {
-        //---- Enter your exception handling code here -----
         dotmove_copy::theUI->NXMessageBox()->Show("Block Styler", NXOpen::NXMessageBox::DialogTypeError, ex.what());
     }
     return 0;
@@ -304,7 +345,6 @@ int dotmove_copy::ok_cb()
     }
     catch(exception& ex)
     {
-        //---- Enter your exception handling code here -----
         errorCode = 1;
         dotmove_copy::theUI->NXMessageBox()->Show("Block Styler", NXOpen::NXMessageBox::DialogTypeError, ex.what());
     }
@@ -313,9 +353,9 @@ int dotmove_copy::ok_cb()
 
 //------------------------------------------------------------------------------
 //Function Name: GetBlockProperties
-//Description: Returns the propertylist of the specified BlockID
 //------------------------------------------------------------------------------
 PropertyList* dotmove_copy::GetBlockProperties(const char *blockID)
 {
     return theDialog->GetBlockProperties(blockID);
 }
+
