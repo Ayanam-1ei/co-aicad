@@ -1,0 +1,35 @@
+# Visual Studio project files
+*.sln
+*.vcxproj
+*.vcxproj.filters
+*.vcxproj.user
+*.suo
+*.user
+*.recipe
+
+# Build outputs (except tracked dll)
+Debug/
+Release/
+x64/Debug/*.ilk
+x64/Debug/*.exp
+x64/Debug/*.lib
+x64/Debug/*.pdb
+x64/Debug/*.log
+x64/Debug/*.obj
+x64/Debug/*.tlog/
+
+# VS cache & temp
+.vs/
+dotmove_copy/
+*.ipch
+*.db
+*.db-shm
+*.db-wal
+*.vsidx
+*.json
+
+# Docs
+ReadMe.txt
+
+# Source (only keep .cpp)
+*.hpp
