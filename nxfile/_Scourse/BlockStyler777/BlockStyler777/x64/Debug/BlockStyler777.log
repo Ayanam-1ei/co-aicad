@@ -1,0 +1,11 @@
+﻿C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\VC\v170\Microsoft.CppBuild.targets(517,5): warning MSB8004: Output 目录未以斜杠结尾。  此生成实例将添加斜杠，因为必须有这个斜杠才能正确计算 Output 目录。
+  BlockStyler777.cpp
+D:\nx\UGOPEN\NXOpen\NXException.hxx(28,53): warning C4275: 非 dll 接口 class“std::exception”用作 dll 接口 class“NXOpen::NXException”的基
+  (编译源文件“BlockStyler777.cpp”)
+  C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.39.33519\include\vcruntime_exception.h(48,7):
+  参见“std::exception”的声明
+  D:\nx\UGOPEN\NXOpen\NXException.hxx(28,27):
+  参见“NXOpen::NXException”的声明
+  
+    正在创建库 ..\..\Application\/BlockStyler777.lib 和对象 ..\..\Application\/BlockStyler777.exp
+  BlockStyler777.vcxproj -> D:\nxfile\Application\BlockStyler777.dll
