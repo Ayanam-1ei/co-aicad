@@ -1,5 +1,4 @@
 ﻿  dotmove_copy.cpp
-G:\vs\VC\Tools\MSVC\14.41.34120\include\variant(12): warning STL4038: The contents of <variant> are available only with C++17 or later.
 S:\nx\ugopen\NXOpen\NXException.hxx(28,53): warning C4275: 非 dll 接口 class“std::exception”用作 dll 接口 class“NXOpen::NXException”的基
   (编译源文件“dotmove_copy.cpp”)
       G:\vs\VC\Tools\MSVC\14.41.34120\include\vcruntime_exception.h(49,24):
@@ -7,7 +6,6 @@ S:\nx\ugopen\NXOpen\NXException.hxx(28,53): warning C4275: 非 dll 接口 class�
       S:\nx\ugopen\NXOpen\NXException.hxx(28,27):
       参见“NXOpen::NXException”的声明
   
-S:\visiable\coaicad\_Source\dotmove_copy\dotmove_copy.cpp(40,22): warning C4101: “ex”: 未引用的局部变量
+S:\visiable\coaicad\_Source\dotmove_copy\dotmove_copy.cpp(41,22): warning C4101: “ex”: 未引用的局部变量
 S:\visiable\coaicad\_Source\dotmove_copy\dotmove_copy.cpp(79,20): warning C4996: 'NXOpen::BlockStyler::BlockDialog::Show': Deprecated in NX2206.0.0.  Use BlockStyler::BlockDialog::Launch instead
-    正在创建库 S:\visiable\coaicad\_Source\dotmove_copy\x64\Debug\/dotmove_copy.lib 和对象 S:\visiable\coaicad\_Source\dotmove_copy\x64\Debug\/dotmove_copy.exp
   dotmove_copy.vcxproj -> S:\visiable\coaicad\_Source\dotmove_copy\x64\Debug\dotmove_copy.dll

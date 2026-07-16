@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ImportGroup Label="PropertySheets" />
+
+  <!-- ========== 基本配置 ========== -->
+  <PropertyGroup Label="Globals">
+    <PreferredToolArchitecture>x64</PreferredToolArchitecture>
+    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+  </PropertyGroup>
+
+  <!-- ========== 输出目录 ========== -->
+  <PropertyGroup>
+    <!-- DLL 输出到 UXOPEN USER 目录下 -->
+    <OutDir>$(UGII_USER_DIR)\Application\</OutDir>
+    <IntDir>$(SolutionDir)Intermediate\$(ProjectName)\$(Platform)\$(Configuration)\</IntDir>
+  </PropertyGroup>
+
+  <!-- ========== Debug | x64 ========== -->
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <!-- 包含目录 -->
+      <AdditionalIncludeDirectories>
+        $(UGII_BASE_DIR)\UGOPEN;
+        $(UGII_BASE_DIR)\UGII\include;
+        $(UGII_BASE_DIR)\UGII\include_nxopen;
+        %(AdditionalIncludeDirectories)
+      </AdditionalIncludeDirectories>
+      <!-- 预处理器定义 -->
+      <PreprocessorDefinitions>_DEBUG;_WINDOWS;_USRDLL;NXOPENCPP_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <!-- 运行时库: MDd (多线程 DLL Debug) -->
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <TreatWChar_tAsBuiltInType>true</TreatWChar_tAsBuiltInType>
+      <LanguageStandard>stdcpp17</LanguageStandard>
+      <PlatformToolset>v143</PlatformToolset>
+    </ClCompile>
+    <Link>
+      <AdditionalLibraryDirectories>$(UGII_BASE_DIR)\UGII\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>libufun.lib;libnxopencpp.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <!-- 生成 DLL -->
+      <SubSystem>Windows</SubSystem>
+    </Link>
+  </ItemDefinitionGroup>
+
+  <!-- ========== Release | x64 ========== -->
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>
+        $(UGII_BASE_DIR)\UGOPEN;
+        $(UGII_BASE_DIR)\UGII\include;
+        $(UGII_BASE_DIR)\UGII\include_nxopen;
+        %(AdditionalIncludeDirectories)
+      </AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>NDEBUG;_WINDOWS;_USRDLL;NXOPENCPP_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <TreatWChar_tAsBuiltInType>true</TreatWChar_tAsBuiltInType>
+      <LanguageStandard>stdcpp17</LanguageStandard>
+      <PlatformToolset>v143</PlatformToolset>
+    </ClCompile>
+    <Link>
+      <AdditionalLibraryDirectories>$(UGII_BASE_DIR)\UGII\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>libufun.lib;libnxopencpp.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <SubSystem>Windows</SubSystem>
+    </Link>
+  </ItemDefinitionGroup>
+
+</Project>
