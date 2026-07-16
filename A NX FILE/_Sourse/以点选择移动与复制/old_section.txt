@@ -1,0 +1,11 @@
+﻿    NXOpen::BlockStyler::Group*          group0;
+    NXOpen::BlockStyler::SelectObject*   sel_body;       // 选择实体/面
+    NXOpen::BlockStyler::Group*          group1;
+    NXOpen::BlockStyler::Enumeration*    radio_start;    // 起始点单选 (RadioBox)
+    NXOpen::BlockStyler::SpecifyPoint*   pt_start;       // 起始点坐标
+    NXOpen::BlockStyler::Group*          group2;
+    NXOpen::BlockStyler::Enumeration*    radio_end;      // 结束点单选 (RadioBox)
+    NXOpen::BlockStyler::SpecifyPoint*   pt_end;         // 结束点坐标
+    NXOpen::BlockStyler::Group*          group3;
+    NXOpen::BlockStyler::Enumeration*    radio_mode;     // 移动/复制 (RadioBox)
+    NXOpen::BlockStyler::Button*         okButton;       // 确定按钮

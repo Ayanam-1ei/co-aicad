@@ -1,0 +1,13 @@
+﻿    NXOpen::BlockStyler::Group*          group0;
+    NXOpen::BlockStyler::Button*         moveButton;     // 移动按钮
+    NXOpen::BlockStyler::Button*         copyButton0;    // 复制按钮
+    NXOpen::BlockStyler::Group*          group;
+    NXOpen::BlockStyler::SelectObject*   selectObject;   // 选择实体/面
+    NXOpen::BlockStyler::Group*          group1;
+    NXOpen::BlockStyler::SpecifyPoint*   point0;         // 起始点坐标
+    NXOpen::BlockStyler::Enumeration*    enum0;          // 起始点单选 (RadioBox)
+    NXOpen::BlockStyler::Group*          group2;
+    NXOpen::BlockStyler::SpecifyPoint*   point01;        // 结束点坐标
+    NXOpen::BlockStyler::Enumeration*    enum01;         // 结束点单选 (RadioBox)
+
+    bool m_isCopy;  // 当前模式: false=移动, true=复制
