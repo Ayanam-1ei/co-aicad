@@ -1,0 +1,6 @@
+﻿$content = [System.IO.File]::ReadAllText("D:\nxfile\Application\qq77\qq77.cpp")
+$content = $content.Replace("#include <NXOpen/ScCollector.hxx>", "#include <NXOpen/ScCollector.hxx>`r`n#include <NXOpen/BodyFeatureRule.hxx>`r`n#include <NXOpen/PointCollection.hxx>")
+$content = $content.Replace("theUI->NXMessageBox()->Show(""qq77"", NXMessageBox::DialogTypeWarning, ""体测量失败，起始点将使用默认坐标"");", "NXString errMsg; errMsg = NXString::Format(L""体测量失败 (错误码: %d)"", ex.ErrorCode()); theUI->NXMessageBox()->Show(""qq77"", NXMessageBox::DialogTypeWarning, errMsg);")
+$content = $content.Replace("} catch (...) {`r`n                        theUI->NXMessageBox()->Show(""qq77"", NXMessageBox::DialogTypeWarning, ""体测量失败，将使用默认坐标"");", "} catch (NXOpen::NXException& ex) {`r`n                        NXString errMsg; errMsg = NXString::Format(L""体测量失败 (错误码: %d)"", ex.ErrorCode());`r`n                        theUI->NXMessageBox()->Show(""qq77"", NXMessageBox::DialogTypeWarning, errMsg);`r`n                    } catch (std::exception& ex) {`r`n                        theUI->NXMessageBox()->Show(""qq77"", NXMessageBox::DialogTypeWarning, ex.what());")
+[System.IO.File]::WriteAllText("D:\nxfile\Application\qq77\qq77.cpp", $content, [System.Text.Encoding]::UTF8)
+Write-Host "Done"
