@@ -1,0 +1,13 @@
+﻿E:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\VC\v170\Microsoft.CppBuild.targets(524,5): warning MSB8004: Output 目录未以斜杠结尾。  此生成实例将添加斜杠，因为必须有这个斜杠才能正确计算 Output 目录。
+  以点选择移动与复制.cpp
+E:\Program Files\UG_NX2306\Siemens\NX2306\UGOPEN\NXOpen\NXException.hxx(28,53): warning C4275: 非 dll 接口 class“std::exception”用作 dll 接口 class“NXOpen::NXException”的基
+  (编译源文件“以点选择移动与复制.cpp”)
+      E:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\vcruntime_exception.h(49,35):
+      参见“std::exception”的声明
+      E:\Program Files\UG_NX2306\Siemens\NX2306\UGOPEN\NXOpen\NXException.hxx(28,27):
+      参见“NXOpen::NXException”的声明
+  
+  LINK : 没有找到 ..\..\Application\\以点选择移动与复制.dll 或上一个增量链接没有生成它；正在执行完全链接
+    正在创建库 ..\..\Application\/以点选择移动与复制.lib 和对象 ..\..\Application\/以点选择移动与复制.exp
+LINK : warning LNK4232: 名称 以点选择移动与复制.dll 包含非 ASCII 字符，在具有除 936 以外的 ANSI 代码页的系统上可能不能加载 DLL
+  以点选择移动与复制.vcxproj -> E:\Program Files\A NX FILE\Application\以点选择移动与复制.dll
